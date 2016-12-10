@@ -9,3 +9,6 @@ convert enemy.png -fill "#920000" -opaque "#787878" enemy.png
 cp player.png ../game/scenes/intro/player.png
 cp enemy.png ../game/scenes/intro/enemy.png
 convert intro.xcf ../game/scenes/intro/intro.png
+
+# create battleground
+convert -layers flatten battleground.xcf ../game/scenes/battleground/battleground.png
