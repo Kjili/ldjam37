@@ -19,6 +19,5 @@ transform/pos = Vector2( 960, 632 )
 [node name="Enemy" parent="YSort" instance=ExtResource( 3 )]
 
 transform/pos = Vector2( 960, 568 )
-transform/scale = Vector2( 1, 1 )
 
 
