@@ -26,6 +26,7 @@ collision/mask = 1
 collision/margin = 0.08
 script/script = ExtResource( 1 )
 speed = 400
+jumpWidth = 64
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 
@@ -39,5 +40,12 @@ _update_shape_index = 0
 transform/scale = Vector2( 2, 2 )
 frames = SubResource( 2 )
 animation = "idle_up"
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+
+enabled = false
+cast_to = Vector2( 0, 50 )
+layer_mask = 1
+type_mask = 15
 
 
