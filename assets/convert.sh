@@ -12,3 +12,9 @@ convert intro.xcf ../game/scenes/intro/intro.png
 
 # create battleground
 convert -layers flatten battleground.xcf ../game/scenes/battleground/battleground.png
+
+# create hero animations
+for f in animation/*
+do
+	convert $f ../game/scenes/hero/$(basename ${f%.xcf}).png
+done
