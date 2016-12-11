@@ -13,8 +13,16 @@ convert intro.xcf ../game/scenes/intro/intro.png
 # create battleground
 convert -layers flatten battleground.xcf ../game/scenes/battleground/battleground.png
 
-# create hero and enemy animations
+# create hero and enemy animations for animationsprite
 for f in animation/*
+do
+	convert $f ../game/scenes/hero/$(basename ${f%.xcf}).png
+	convert $f -colorspace Gray ../game/scenes/enemy/$(basename ${f%.xcf}).png
+	convert ../game/scenes/enemy/$(basename ${f%.xcf}).png -fill "#920000" -opaque "#787878" ../game/scenes/enemy/$(basename ${f%.xcf}).png
+done
+
+# create keyframes
+for f in frames/*
 do
 	convert $f ../game/scenes/hero/$(basename ${f%.xcf}).png
 	convert $f -colorspace Gray ../game/scenes/enemy/$(basename ${f%.xcf}).png
