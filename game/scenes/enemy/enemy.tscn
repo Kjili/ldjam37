@@ -336,10 +336,9 @@ type_mask = 15
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 
-visibility/visible = false
 transform/scale = Vector2( 2, 2 )
 frames = SubResource( 2 )
-animation = "idle_up"
+animation = "idle_down"
 
 [node name="AttackVertical" type="Sprite" parent="."]
 
@@ -359,7 +358,7 @@ frame = 1
 
 [node name="Shield" type="Sprite" parent="."]
 
-transform/pos = Vector2( 0, -5 )
+visibility/visible = false
 transform/scale = Vector2( 2, 2 )
 texture = ExtResource( 12 )
 hframes = 8
@@ -397,7 +396,7 @@ next/HitRight = ""
 next/HitUp = ""
 next/StabLeft = ""
 playback/active = true
-playback/speed = 2.0
+playback/speed = 1.0
 blend_times = [  ]
 autoplay = ""
 
