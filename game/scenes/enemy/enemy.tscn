@@ -125,7 +125,7 @@ root/root = NodePath("..")
 anims/StabDown = SubResource( 4 )
 anims/StabRight = SubResource( 5 )
 playback/active = true
-playback/speed = 1.0
+playback/speed = 4.0
 blend_times = [  ]
 autoplay = ""
 
