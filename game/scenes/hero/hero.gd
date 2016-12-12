@@ -1,84 +1,55 @@
 extends KinematicBody2D
 
-export var speed = 400
-export var jumpWidth = 64
 var animationNode
 var currentAnimation
 var nextAnimation
 var rayNode
 var jumpEnabled
 var facing
+var neighbours
+var distance
 
 func _ready():
+	set_process_input(true)
 	set_process(true)
 	animationNode = get_node("AnimatedSprite")
-	rayNode = get_node("RayCast2D")
-	jumpEnabled = true
-	facing = Vector2(0,0)
+	facing = "up"
+	neighbours = { "up": { "left" : "right",  "right": "left" }, "right": { "left" : "down", "right": "up" }, "down": { "left" : "left", "right": "right" }, "left": { "left" : "up", "right": "down" } }
+	distance = get_global_pos().distance_to(get_parent().get_node("Enemy").get_pos())
+
+func getPosition(facing, fixpoint, distance):
+	if facing == "up":
+		return Vector2(fixpoint.x, fixpoint.y + distance)
+	if facing == "down":
+		return Vector2(fixpoint.x, fixpoint.y - distance)
+	if facing == "right":
+		return Vector2(fixpoint.x - distance, fixpoint.y)
+	if facing == "left":
+		return Vector2(fixpoint.x + distance, fixpoint.y)
+	return get_global_pos()
+
+func _input(event):
+	
+	var newPos = get_global_pos()
+	var fixpoint = get_parent().get_node("Enemy").get_pos()
+	
+	if event.is_action_pressed("move_left") and not event.is_echo():
+		facing = neighbours[facing]["left"]
+		nextAnimation = "idle_" + facing
+		newPos = getPosition(facing, fixpoint, distance)
+	if event.is_action_pressed("move_right") and not event.is_echo():
+		facing = neighbours[facing]["right"]
+		nextAnimation = "idle_" + facing
+		newPos = getPosition(facing, fixpoint, distance)
+	if event.is_action_pressed("move_up") and not event.is_echo():
+		newPos = getPosition(facing, fixpoint, 0.5*distance)
+	if event.is_action_pressed("move_down") and not event.is_echo():
+		newPos = getPosition(facing, fixpoint, 1.5*distance)
+	
+	set_global_pos(newPos)
 
 func _process(delta):
-	# movement
-	var input = Vector2(0,0)
-	if Input.is_action_pressed("move_left"):
-		facing = Vector2(-1,0)
-		input -= Vector2(1,0)
-		rayNode.set_rotd(270)
-		nextAnimation = "idle_left"
-	if Input.is_action_pressed("move_right"):
-		facing = Vector2(1,0)
-		input += Vector2(1,0)
-		rayNode.set_rotd(90)
-		nextAnimation = "idle_right"
-	if Input.is_action_pressed("move_up"):
-		facing = Vector2(0,-1)
-		input -= Vector2(0,1)
-		rayNode.set_rotd(180)
-		nextAnimation = "idle_up"
-	if Input.is_action_pressed("move_down"):
-		facing = Vector2(0,1)
-		input += Vector2(0,1)
-		rayNode.set_rotd(0)
-		nextAnimation = "idle_down"
-	input = input.normalized()
-	move(input * speed * delta)
 	
-	# jump
-	
-		
-	if Input.is_action_pressed("jump_left_forwards"):
-		if jumpEnabled:
-			#var left = Vector2(facing.y, -facing.x)
-			#print("facing:",facing,"left:",left)
-			#move((facing + left) * jumpWidth)
-			move(Vector2(-1,-1) * jumpWidth)
-			jumpEnabled = false
-		#nextAnimation = "idle_down"
-	elif Input.is_action_pressed("jump_left_backwards"):
-		if jumpEnabled:
-			#var left = Vector2(facing.y, -facing.x)
-			#print("facing:",facing,"left:",left)
-			#move((-facing + left) * jumpWidth)
-			move(Vector2(-1,1) * jumpWidth)
-			jumpEnabled = false
-		#nextAnimation = "idle_down"
-	elif Input.is_action_pressed("jump_right_forwards"):
-		if jumpEnabled:
-			#var right = Vector2(-facing.y, facing.x)
-			#print("facing:",facing,"right:",right)
-			#move((facing + right) * jumpWidth)
-			move(Vector2(1,-1) * jumpWidth)
-			jumpEnabled = false
-		#nextAnimation = "idle_down"
-	elif Input.is_action_pressed("jump_right_backwards"):
-		if jumpEnabled:
-			#var right = Vector2(-facing.y, facing.x)
-			#print("facing:",facing,"right:",right)
-			#move((-facing + right) * jumpWidth)
-			move(Vector2(1,1) * jumpWidth)
-			jumpEnabled = false
-		#nextAnimation = "idle_down"
-	else:
-		jumpEnabled = true
 	# adjust animation
 	if currentAnimation != nextAnimation:
 		currentAnimation = nextAnimation
