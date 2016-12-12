@@ -55,5 +55,5 @@ func attack(fixpoint):
 
 func _fixed_process(delta):
 	var fixpoint = get_parent().get_node("Hero").get_pos()
-	keepDistance(fixpoint)
+	#keepDistance(fixpoint)
 	attack(fixpoint)
